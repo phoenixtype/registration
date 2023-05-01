@@ -1,0 +1,17 @@
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+
+
+spring :
+  datasource:
+    password:
+      ur; jdbc:postgresql://localhpst:5432/registration
+    username:
+    jpa:
+      hibernate:
+        ddl-auto:
+          properties:
+            hibernate:
+
