@@ -1,4 +1,4 @@
-package com.phoenixtype.registration;
+package dev.registrationapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class RegistrationApplication {
     public static void main(String[] args) {
         SpringApplication.run(RegistrationApplication.class, args);
     }
-
 }

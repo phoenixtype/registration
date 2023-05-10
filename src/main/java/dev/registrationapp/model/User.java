@@ -1,49 +1,51 @@
-package com.phoenixtype.registration.model;
+package dev.registrationapp.model;
 
-import com.phoenixtype.registration.enums.Role;
-import jakarta.persistence.*;
+import dev.registrationapp.enums.Role;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
 import java.util.Collections;
 
-@Component
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Validated
+@Document(collection = "users")
 public class User implements UserDetails {
 
     @Id
-    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
-    private Long id;
-    private String name;
-    private String username;
+    private String id;
+    private String firstName;
+    private String lastName;
+
+    @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",
+             message = "Email must have the standard email pattern")
+    @Indexed(unique = true)
     private String email;
     private String password;
-
-    @Enumerated(EnumType.STRING)
     private Role role;
-    private Boolean locked;
-    private Boolean enabled;
+    private Boolean locked = false;
+    private Boolean enabled = false;
 
-    public User(String name, String username, String email, String password, Role role, Boolean locked, Boolean enabled) {
-        this.name = name;
-        this.username = username;
+    public User(String firstName, String lastName, String email, String password, Role role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.locked = locked;
-        this.enabled = enabled;
     }
 
     @Override
@@ -59,7 +61,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override

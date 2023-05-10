@@ -1,8 +1,8 @@
-package com.phoenixtype.registration.enums;
+package dev.registrationapp.enums;
 
 import org.springframework.stereotype.Component;
 
-@Component
+
 public enum Role {
     USER,
     ADMIN
